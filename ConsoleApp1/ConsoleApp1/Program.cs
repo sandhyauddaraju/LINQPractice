@@ -42,6 +42,33 @@ namespace MyApp
 
             Console.WriteLine("Pagination Methods");
 
+            int RecordsPerPage = 3;
+            int PageNumber = 0;
+            do
+            {
+                Console.WriteLine("Enter Page no. between 1 and 4");
+                if(Int32.TryParse(Console.ReadLine(), out PageNumber))
+                {
+                    if(PageNumber > 0 && PageNumber < 5)
+                    {
+                        using (ApplicationDBContext db = new ApplicationDBContext())
+                        {
+                           var emplst = db.Employees.Skip((PageNumber - 1) * RecordsPerPage).Take(RecordsPerPage);
+                            foreach (var item in emplst)
+                            {
+                                Console.WriteLine($"EmpId -  {item.Id} , EmpName - { item.Name} , EmpSal - { item.Salary}");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Enter a valid page number 1 to 4");
+                }
+
+
+            } while(true);
+
 
         }
     }
